@@ -31,7 +31,7 @@ function clean() {
 	}
 }
 
-function drawNote(ctx, level, note) {
+function drawNote(ctx, level, note, red) {
 	var low = gLow;
 	if (level == "g") {
 		low = gLow;
@@ -41,10 +41,10 @@ function drawNote(ctx, level, note) {
 	var y = low - gap*note;
 	var drawLine = note % 2 == 0;
 	var noteLetter = getNoteLetter(level, note);
-	drawCircle(ctx, {x: 200, y: y}, drawLine);
+	drawCircle(ctx, {x: 200, y: y}, drawLine, red);
 }
 
-function drawCircle(ctx, center, drawLine) {
+function drawCircle(ctx, center, drawLine, red) {
 
 	var radius = 7;
 	ctx.save();
@@ -54,7 +54,10 @@ function drawCircle(ctx, center, drawLine) {
 	ctx.beginPath();
 	ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI, false);
 	ctx.lineWidth = "4";
-	ctx.strokeStyle = "black thick";
+	ctx.strokeStyle = "black";
+	if (red) {
+		ctx.strokeStyle = "red"
+	}
 	ctx.stroke();
 
 	// line
@@ -73,15 +76,18 @@ function drawCircle(ctx, center, drawLine) {
 var countMax = 30;
 var count = 0;
 var noteLetter = "s";
+var note;
+var level;
 function onKeyPress(event) {
 
 	// check current noteletter
+	clean();
 	var keyTyped = String.fromCharCode(event.keyCode);
 	if (keyTyped == noteLetter) {
 		drawCorrect(keyTyped);
-		clean();
 	} else {
 		drawWrong(keyTyped, noteLetter);
+		drawNote(ctx, level, note, true);
 	}
 
 	// draw new note;
@@ -89,10 +95,10 @@ function onKeyPress(event) {
 }
 
 function drawNewNote() {
-	var level = count > countMax ? 'f' : 'g';
-	var note = Math.floor(13*Math.random());
+	level = count > countMax ? 'f' : 'g';
+	note = Math.floor(13*Math.random());
 	noteLetter = getNoteLetter(level, note);
-	drawNote(ctx, level, note);
+	drawNote(ctx, level, note, false);
 	count++;
 }
 
