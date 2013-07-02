@@ -1,0 +1,19 @@
+body {
+	background-color: #ddd;
+}
+
+canvas {
+	background-color: white;
+}
+
+#correct, #wrong {
+	font-size: 30px;
+}
+
+#correct {
+	background-color: green;
+}
+
+#wrong {
+	background-color: red;
+}
