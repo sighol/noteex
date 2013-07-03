@@ -4,14 +4,23 @@ var gap = 11;
 
 var octave = gap * 7;
 
-var gLow = 183;
-var fLow = 376;
+var gLow = 173;
+var fLow = 366;
 var canvasWidth = 600;
 var canvasHeight = 400;
 
 var scala = ['c', 'd', 'e', 'f', 'g', 'a', 'h'];
 
 var guess = null;
+
+var noteXPosition = 300;
+
+var countMax = 10;
+var count = 0;
+var noteLetter = "s";
+var note;
+var level;
+var correctCount = 0;
 
 function run() {
 	var canvas = document.getElementById("game");
@@ -27,7 +36,7 @@ function clean() {
 	image.src = "sheet.png";
 	image.alt = "Music sheet";
 	image.onload = function() {
-		ctx.drawImage(image, 10, 10, canvasWidth, canvasHeight);
+		ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
 	}
 }
 
@@ -41,7 +50,7 @@ function drawNote(ctx, level, note, circleColor) {
 	var y = low - gap*note;
 	var drawLine = note % 2 == 0;
 	var noteLetter = getNoteLetter(level, note);
-	drawCircle(ctx, {x: 200, y: y}, drawLine, circleColor);
+	drawCircle(ctx, {x: noteXPosition, y: y}, drawLine, circleColor);
 }
 
 function drawCircle(ctx, center, drawLine, circleColor) {
@@ -72,13 +81,6 @@ function drawCircle(ctx, center, drawLine, circleColor) {
 	ctx.restore();
 }
 
-
-var countMax = 10;
-var count = 0;
-var noteLetter = "s";
-var note;
-var level;
-var correctCount = 0;
 function onKeyPress(event) {
 
 	// check current noteletter
@@ -99,7 +101,8 @@ function onKeyPress(event) {
 }
 
 function drawNewNote() {
-	level = count % 60 > countMax ? 'g' : 'f';
+	console.log(count);
+	level = (count % (countMax*2) > countMax) ? 'g' : 'f';
 	note = Math.floor(13*Math.random());
 	noteLetter = getNoteLetter(level, note);
 	drawNote(ctx, level, note, false);
