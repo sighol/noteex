@@ -59,7 +59,6 @@ function drawCircle(ctx, center, drawLine, circleColor) {
 	ctx.save();
 
 	// circle
-
 	ctx.beginPath();
 	ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI, false);
 	ctx.lineWidth = "4";
