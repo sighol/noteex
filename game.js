@@ -85,7 +85,8 @@ function onKeyPress(event) {
 
 	// check current noteletter
 	clean();
-	var keyTyped = String.fromCharCode(event.keyCode);
+	var keyTyped = String.fromCharCode(event.which);
+	console.log("Key typed", keyTyped);
 	if (keyTyped == noteLetter) {
 		correctCount++;
 		drawCorrect(keyTyped);
@@ -101,7 +102,6 @@ function onKeyPress(event) {
 }
 
 function drawNewNote() {
-	console.log(count);
 	level = (count % (countMax*2) > countMax) ? 'g' : 'f';
 	note = Math.floor(13*Math.random());
 	noteLetter = getNoteLetter(level, note);
