@@ -73,7 +73,7 @@ function drawCircle(ctx, center, drawLine, circleColor) {
 }
 
 
-var countMax = 30;
+var countMax = 10;
 var count = 0;
 var noteLetter = "s";
 var note;
@@ -99,7 +99,7 @@ function onKeyPress(event) {
 }
 
 function drawNewNote() {
-	level = count > countMax ? 'f' : 'g';
+	level = count % 60 > countMax ? 'g' : 'f';
 	note = Math.floor(13*Math.random());
 	noteLetter = getNoteLetter(level, note);
 	drawNote(ctx, level, note, false);
