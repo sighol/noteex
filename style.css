@@ -2,8 +2,14 @@ body {
 	background-color: #ddd;
 }
 
+h1 {
+	text-align: center;
+}
+
 canvas {
 	background-color: white;
+	display: block;
+	margin: 3em auto;
 }
 
 #correct, #wrong {
