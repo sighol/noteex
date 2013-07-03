@@ -31,7 +31,7 @@ function clean() {
 	}
 }
 
-function drawNote(ctx, level, note, red) {
+function drawNote(ctx, level, note, circleColor) {
 	var low = gLow;
 	if (level == "g") {
 		low = gLow;
@@ -41,10 +41,10 @@ function drawNote(ctx, level, note, red) {
 	var y = low - gap*note;
 	var drawLine = note % 2 == 0;
 	var noteLetter = getNoteLetter(level, note);
-	drawCircle(ctx, {x: 200, y: y}, drawLine, red);
+	drawCircle(ctx, {x: 200, y: y}, drawLine, circleColor);
 }
 
-function drawCircle(ctx, center, drawLine, red) {
+function drawCircle(ctx, center, drawLine, circleColor) {
 
 	var radius = 7;
 	ctx.save();
@@ -55,8 +55,8 @@ function drawCircle(ctx, center, drawLine, red) {
 	ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI, false);
 	ctx.lineWidth = "4";
 	ctx.strokeStyle = "black";
-	if (red) {
-		ctx.strokeStyle = "red"
+	if (circleColor) {
+		ctx.strokeStyle = circleColor;
 	}
 	ctx.stroke();
 
@@ -78,20 +78,24 @@ var count = 0;
 var noteLetter = "s";
 var note;
 var level;
+var correctCount = 0;
 function onKeyPress(event) {
 
 	// check current noteletter
 	clean();
 	var keyTyped = String.fromCharCode(event.keyCode);
 	if (keyTyped == noteLetter) {
+		correctCount++;
 		drawCorrect(keyTyped);
 	} else {
 		drawWrong(keyTyped, noteLetter);
-		drawNote(ctx, level, note, true);
+		drawNote(ctx, level, note, "red");
 	}
 
 	// draw new note;
 	drawNewNote();
+	count++;
+	drawScore();
 }
 
 function drawNewNote() {
@@ -99,7 +103,15 @@ function drawNewNote() {
 	note = Math.floor(13*Math.random());
 	noteLetter = getNoteLetter(level, note);
 	drawNote(ctx, level, note, false);
-	count++;
+}
+
+function drawScore() {
+	ctx.save();
+	ctx.font = "30px sans";
+	ctx.fillText(correctCount + "/" + count, 450, 30);
+
+
+	ctx.restore();
 }
 
 
@@ -122,6 +134,7 @@ document.ready = function() {
 	run();
 	document.onkeypress = onKeyPress;
 	drawNewNote();
+	drawScore();
 	correct = document.getElementById("correct");
 	wrong = document.getElementById("wrong");
 }
@@ -134,7 +147,7 @@ function drawCorrect(letter) {
 
 function drawWrong(keyTyped, letter) {
 	clearText();
-	wrong.innerHTML = "Feil: " + keyTyped + " er ikke " + letter;
+	wrong.innerHTML =  letter + ". Ikke " + keyTyped;
 }
 
 function clearText() {
